@@ -3,7 +3,7 @@ import os
 
 def delete_same_image():
     members = ['Mako', 'Rio', 'Maya', 'Riku', 'Ayaka', 'Mayuka', 'Rima', 'Miihi', 'Nina']
-    IMAGE_FOLDER_PATH = 'D:\Image_NiziU\\'
+    IMAGE_FOLDER_PATH = 'D:\Image_NiziU_整理'
 
     for member in members:
         files = glob.glob(os.path.join(IMAGE_FOLDER_PATH, member, '*'))
