@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>1dcd0d8d-7b39-4c87-9eb3-c7edbbeace45</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>NiziU.py</StartupFile>
+    <StartupFile>detect_face.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,7 +24,10 @@
     <Compile Include="delete_same_image.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="NiziU.py" />
+    <Compile Include="collect_image.py" />
+    <Compile Include="detect_face.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
