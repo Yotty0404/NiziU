@@ -455,3 +455,7 @@ $RECYCLE.BIN/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/my_model.h61
+/my_model.h5_1
+/my_model.h50
+/my_model.h5
