@@ -10,7 +10,7 @@ from PIL import ImageGrab, Image
 
 OUTPUT_FOLDER = "D:\\NiziU\\face_clip"
 
-cnt = 272
+cnt = 300
 
 
 while True:
