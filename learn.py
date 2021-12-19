@@ -33,7 +33,7 @@ def learn(target_members):
     X_train=np.array(X_train)
     X_test=np.array(X_test)
 
-    from keras.layers import Activation, Conv2D, Dense, Flatten, MaxPooling2D, BatchNormalization, Dropout
+    from keras.layers import Activation, Conv2D, Dense, Flatten, MaxPooling2D, BatchNormalization, Dropout, GlobalAveragePooling2D
     from keras.models import Sequential
     from keras.utils.np_utils import to_categorical
     from tensorflow.keras import optimizers
@@ -41,58 +41,28 @@ def learn(target_members):
     y_train = to_categorical(Y_train)
     y_test = to_categorical(Y_test)
 
-    # モデルの定義
-    #model = Sequential()
-    #model.add(Conv2D(input_shape=(64, 64, 3), filters=32,kernel_size=(3, 3), 
-    #                 strides=(1, 1), padding="same"))
-
-    ## 追加
-    #model.add(Conv2D(filters=32, kernel_size=(3, 3), 
-    #                 strides=(1, 1), padding="same"))
-    #model.add(BatchNormalization())
-
-
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
-    #model.add(Conv2D(filters=32, kernel_size=(3, 3), 
-    #                 strides=(1, 1), padding="same"))
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
-    #model.add(Conv2D(filters=32, kernel_size=(3, 3), 
-    #                 strides=(1, 1), padding="same"))
-    #model.add(MaxPooling2D(pool_size=(2, 2)))
-    #model.add(Flatten())
-    #model.add(Dense(256))
-    #model.add(Activation("sigmoid"))
-    #model.add(Dense(128))
-    #model.add(Activation('sigmoid'))
-    #model.add(Dense(9))
-    #model.add(Activation('softmax'))
-
-    ## コンパイル
-    #model.compile(optimizer='sgd',
-    #              loss='categorical_crossentropy',
-    #              metrics=['accuracy'])
-
-
     model = Sequential()
     model.add(Conv2D(32, (3, 3), activation='relu',
                      input_shape=(64, 64, 3), padding="same"))
+    model.add(Conv2D(32, (3, 3), activation='relu', padding="same"))
+    model.add(BatchNormalization())
+    model.add(Conv2D(32, (3, 3), activation='relu', padding="same"))
     model.add(MaxPooling2D((2, 2)))
-    model.add(Dropout(0.2))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Dropout(0.2))
-    model.add(Conv2D(128, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Dropout(0.2))
-    model.add(Conv2D(128, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Dropout(0.2))
-    model.add(Flatten())
-    model.add(Dense(512, activation='relu'))
-    model.add(Dropout(0.2))
-    #model.add(Dense(9, activation='softmax'))
-    model.add(Dense(2, activation='softmax'))
+    model.add(Dropout(0.25))
 
+    model.add(Conv2D(64, (3, 3), activation='relu', padding="same"))
+    model.add(Conv2D(64, (3, 3), activation='relu', padding="same"))
+    model.add(BatchNormalization())
+    model.add(Conv2D(64, (3, 3), activation='relu', padding="same"))
+    model.add(MaxPooling2D((2, 2)))
+    model.add(Dropout(0.25))
+    model.add(Flatten())
+
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(128, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(len(target_members), activation='softmax'))
 
     model.summary()
 
@@ -100,20 +70,16 @@ def learn(target_members):
                   optimizer=optimizers.RMSprop(lr=1e-4),
                   metrics=['accuracy'])
 
-    #model.compile(optimizer='sgd',
-    #              loss='categorical_crossentropy',
-    #              metrics=['accuracy'])
-
     # 学習
-    history = model.fit(X_train, y_train, batch_size=32, 
-                        epochs=25, verbose=1, validation_data=(X_test, y_test))
+    history = model.fit(X_train, y_train, batch_size=128, 
+                        epochs=40, verbose=1, validation_data=(X_test, y_test))
 
     # 汎化制度の評価・表示
     score = model.evaluate(X_test, y_test, batch_size=32, verbose=0)
     print('validation loss:{0[0]}\nvalidation accuracy:{0[1]}'.format(score))
 
     #モデルを保存
-    model.save("my_model.h50")
+    model.save("my_model")
 
     #acc, val_accのプロット
     plt.plot(history.history["accuracy"], label="acc", ls="-", marker="o")
@@ -122,8 +88,6 @@ def learn(target_members):
     plt.xlabel("epoch")
     plt.legend(loc="best")
     plt.show()
-
-
 
 if __name__ == '__main__':
     learn(['Mako', 'Rio', 'Maya', 'Riku', 'Ayaka', 'Mayuka', 'Rima', 'Miihi', 'Nina'])

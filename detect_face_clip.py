@@ -10,7 +10,7 @@ from PIL import ImageGrab, Image
 
 OUTPUT_FOLDER = "D:\\NiziU\\face_clip"
 
-cnt = 300
+cnt = 601
 
 
 while True:
@@ -23,7 +23,7 @@ while True:
             print('no image')
             continue
 
-        # クリップボードの画像から顔部分を正方形で囲み、64×64pにリサイズ、別のファイルにどんどん入れてく
+        # クリップボードの画像から顔部分を正方形で囲み、64×64にリサイズ、別のファイルにどんどん入れてく
         image = np.asarray(im)
         if image is None:
             print("Not open:", img)

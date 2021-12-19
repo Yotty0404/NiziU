@@ -35,6 +35,5 @@ def inflation():
                 cv2.imwrite(str(fileName),img_filter)
 
 
-
 if __name__ == '__main__':
     inflation()
